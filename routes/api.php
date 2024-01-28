@@ -17,17 +17,19 @@ use App\Http\Controllers\AuthenticationController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/logout', [AuthenticationController::class, 'logout']);
+    Route::get('/me', [AuthenticationController::class, 'me']);
+    route::post('/post', [PostController::class, 'store']);
+    route::patch('/update/{id}', [PostController::class, 'update'])->middleware('pemilikpostingan');
+    route::delete('/destroy/{id}', [PostController::class, 'destroy'])->middleware('pemilikpostingan');
+
 });
 
 
-Route::get('/posts',[PostController::class, 'index'])->middleware(['auth:sanctum']);
-Route::get('/posts/{id}',[PostController::class, 'show'])->middleware(['auth:sanctum']);
-
-
+Route::get('/posts',[PostController::class, 'index']);
+Route::get('/posts/{id}',[PostController::class, 'show']);
 Route::post('/login', [AuthenticationController::class, 'login'])->name('login');
-Route::get('/logout', [AuthenticationController::class, 'logout'])->middleware(['auth:sanctum']);
-Route::get('/me', [AuthenticationController::class, 'me'])->middleware(['auth:sanctum']);
+
 
 
